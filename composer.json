@@ -1,5 +1,13 @@
 {
   "name": "bouiboui/pocketpal",
   "license": "Unlicense",
-  "description": "Utilities to enjoy Pocket even more"
+  "description": "Utilities to enjoy Pocket even more",
+  "require": {
+    "guzzlehttp/guzzle": "^6.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "bouiboui\\PocketAPI\\": "src/bouiboui/PocketAPI"
+    }
+  }
 }
