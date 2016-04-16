@@ -112,6 +112,5 @@ class PokketAPI
                 'request_token' => $requestToken,
                 'redirect_uri' => $this->redirectUri
             ]));
-        exit();
     }
 }
