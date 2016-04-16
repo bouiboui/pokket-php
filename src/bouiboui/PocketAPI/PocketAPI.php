@@ -4,6 +4,7 @@
 namespace bouiboui\PocketAPI;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * Class PocketAPI
@@ -43,14 +44,24 @@ class PocketAPI
 
     public static function getRequestToken($consumerKey, $redirectUri)
     {
-        $response = self::_getClient()->post(self::TOKEN_URL, [
-            'consumer_key' => self::$consumerKey = $consumerKey,
-            'redirect_uri' => self::$redirectUri = $redirectUri
-        ]);
-        if ($response->getStatusCode() !== 200) {
-            throw new \ErrorException($response->getHeader('X-Error'));
+        try {
+
+            $response = self::_getClient()->post(self::TOKEN_URL, [
+                'json' => [
+                    'consumer_key' => self::$consumerKey = $consumerKey,
+                    'redirect_uri' => self::$redirectUri = $redirectUri
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/json; charset=UTF8',
+                    'X-Accept' => 'application/json'
+                ]
+            ]);
+
+            return json_decode((string)$response->getBody(), true)['code'];
+
+        } catch (ClientException $e) {
+            throw new PocketAPIException($e->getResponse()->getHeader('X-Error')[0]);
         }
-        return json_decode($response->getBody())['code'];
     }
 
     public static function setRedirectUri($url)

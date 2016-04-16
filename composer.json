@@ -1,4 +1,9 @@
 {
+  "config": {
+    "platform": {
+      "php":"~5.6"
+    }
+  },
   "name": "bouiboui/pocketpal",
   "license": "Unlicense",
   "description": "Utilities to enjoy Pocket even more",
