@@ -42,7 +42,7 @@ class PokketAPI
      */
     public function retrieve(RetrieveQuery $query)
     {
-        return $this->_post(self::RETRIEVE_URL,
+        return $this->post(self::RETRIEVE_URL,
             array_merge($query->toArray(), ['access_token' => $this->accessToken])
         );
     }
@@ -54,11 +54,12 @@ class PokketAPI
      * @return array An array containing the results
      * @throws PokketAPIException
      */
-    private function _post($url, array $params = [])
+    private function post($url, array $params = [])
     {
         try {
 
-            return json_decode($this->_getClient()->post($url, [
+            $this->client = $this->client ?: new Client();
+            return json_decode($this->client->post($url, [
                 'json' => array_merge($params, ['consumer_key' => $this->consumerKey]),
                 'headers' => [
                     'Content-Type' => 'application/json; charset=UTF8',
@@ -72,15 +73,6 @@ class PokketAPI
     }
 
     /**
-     * Gets or creates an HTTP client for the POST calls (currently Guzzle)
-     * @return Client
-     */
-    private function _getClient()
-    {
-        return $this->client ?: $this->client = new Client();
-    }
-
-    /**
      * Retrieves an Access token for the API calls
      * @param string $code The request code obtained earlier
      * @return string The returned Access token
@@ -88,7 +80,7 @@ class PokketAPI
      */
     public function getAccessToken($code)
     {
-        return $this->_post(self::AUTHORIZE_URL, ['code' => $code])['access_token'];
+        return $this->post(self::AUTHORIZE_URL, ['code' => $code])['access_token'];
     }
 
     /**
@@ -107,7 +99,7 @@ class PokketAPI
      */
     public function getRequestToken()
     {
-        return $this->_post(self::TOKEN_URL, ['redirect_uri' => $this->redirectUri])['code'];
+        return $this->post(self::TOKEN_URL, ['redirect_uri' => $this->redirectUri])['code'];
     }
 
     /**
