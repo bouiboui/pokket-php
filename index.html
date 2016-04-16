@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Pokket-php by bouiboui</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Pokket-php</h1>
+      <h2 class="project-tagline">PHP SDK to access the Pocket API</h2>
+      <a href="https://github.com/bouiboui/pokket-php" class="btn">View on GitHub</a>
+      <a href="https://github.com/bouiboui/pokket-php/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/bouiboui/pokket-php/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="pokket-php" class="anchor" href="#pokket-php" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>pokket-php</h1>
+
+<p><a href="https://packagist.org/packages/bouiboui/pokket-php"><img src="https://img.shields.io/packagist/v/bouiboui/pokket-php.svg?style=flat-square" alt="Latest Version on Packagist"></a>
+<a href="LICENSE.md"><img src="https://img.shields.io/badge/license-Unlicense-brightgreen.svg?style=flat-square" alt="Software License"></a></p>
+
+<p>PHP SDK to access the <a href="https://getpocket.com">Pocket</a> <a href="https://getpocket.com/developer/docs/overview">API</a> (v3, currently).</p>
+
+<p><em>Wait, why don't you call it</em> Pocket API PHP SDK <em>or something similar then?</em></p>
+
+<p><a href="https://getpocket.com/developer/docs/branding">It's actually forbidden</a> because business™. </p>
+
+<p>I'm a big fan of Pocket and I have some ideas I want to try out thanks to its API. The other librairies I found on Github were either too small, too big, or not documented enough for my needs. <a href="https://github.com/duellsy/pockpack">duellsy/pockpack</a> seems very nicely done, it's a shame I found it too late.</p>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install</h2>
+
+<div class="highlight highlight-source-shell"><pre>$ composer require bouiboui/pokket-php</pre></div>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p><em>Note: For a complete example: <a href="https://github.com/bouiboui/pokket-php/blob/master/example/index.php">example/index.php</a></em></p>
+
+<p>Initialize Pokket with your <a href="https://getpocket.com/developer/apps/new">Consumer key</a> and Redirect URI (classic OAuth)</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1"><span class="pl-smi">$pokket</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">PokketAPI</span>(</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>1234-abcd1234abcd1234abcd1234<span class="pl-pds">'</span></span>, <span class="pl-c">// Consumer key</span></span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>https://yourdomain.tld/<span class="pl-pds">'</span></span> <span class="pl-c">// Redirect uri</span></span>
+<span class="pl-s1">);</span></pre></div>
+
+<p>First we ask the user to login</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1"><span class="pl-k">if</span> (<span class="pl-k">!</span><span class="pl-c1">array_key_exists</span>(<span class="pl-s"><span class="pl-pds">'</span>pokket.token.request<span class="pl-pds">'</span></span>, <span class="pl-smi">$_SESSION</span>)) {</span>
+<span class="pl-s1">    <span class="pl-smi">$pokket</span><span class="pl-k">-&gt;</span>requestUserAccess(<span class="pl-smi">$_SESSION</span>[<span class="pl-s"><span class="pl-pds">'</span>pokket.token.request<span class="pl-pds">'</span></span>] <span class="pl-k">=</span> <span class="pl-smi">$pokket</span><span class="pl-k">-&gt;</span>getRequestToken());</span>
+<span class="pl-s1">} </span></pre></div>
+
+<p>Then we fetch an Access token</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1"><span class="pl-k">if</span> (<span class="pl-k">!</span><span class="pl-c1">array_key_exists</span>(<span class="pl-s"><span class="pl-pds">'</span>pokket.token.access<span class="pl-pds">'</span></span>, <span class="pl-smi">$_SESSION</span>)) {</span>
+<span class="pl-s1">    <span class="pl-smi">$_SESSION</span>[<span class="pl-s"><span class="pl-pds">'</span>pokket.token.access<span class="pl-pds">'</span></span>] <span class="pl-k">=</span> <span class="pl-smi">$pokket</span><span class="pl-k">-&gt;</span>getAccessToken(<span class="pl-smi">$_SESSION</span>[<span class="pl-s"><span class="pl-pds">'</span>pokket.token.request<span class="pl-pds">'</span></span>]);</span>
+<span class="pl-s1">}</span>
+<span class="pl-s1"><span class="pl-smi">$pokket</span><span class="pl-k">-&gt;</span>setAccessToken(<span class="pl-smi">$_SESSION</span>[<span class="pl-s"><span class="pl-pds">'</span>pokket.token.access<span class="pl-pds">'</span></span>]);</span></pre></div>
+
+<p>Now we can get down to business™</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1"><span class="pl-c">// Retrieve user posts</span></span>
+<span class="pl-s1"><span class="pl-smi">$retrieveQuery</span> <span class="pl-k">=</span> <span class="pl-c1">RetrieveQuery</span><span class="pl-k">::</span>build()</span>
+<span class="pl-s1">    <span class="pl-k">-&gt;</span>withState(<span class="pl-c1">RetrieveQuery</span><span class="pl-k">::</span><span class="pl-c1">STATE_UNREAD</span>)</span>
+<span class="pl-s1">    <span class="pl-k">-&gt;</span>withSort(<span class="pl-c1">RetrieveQuery</span><span class="pl-k">::</span><span class="pl-c1">SORT_TITLE</span>)</span>
+<span class="pl-s1">    <span class="pl-k">-&gt;</span>withDetailType(<span class="pl-c1">RetrieveQuery</span><span class="pl-k">::</span><span class="pl-c1">DETAIL_TYPE_SIMPLE</span>)</span>
+<span class="pl-s1">    <span class="pl-k">-&gt;</span>withCount(<span class="pl-c1">100</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$posts</span> <span class="pl-k">=</span> <span class="pl-smi">$pokket</span><span class="pl-k">-&gt;</span>retrieve(<span class="pl-smi">$retrieveQuery</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Display results</span></span>
+<span class="pl-s1"><span class="pl-c1">header</span>(<span class="pl-s"><span class="pl-pds">'</span>Content-type: application/json;Charset=utf8<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-c1">echo</span> <span class="pl-c1">json_encode</span>(<span class="pl-smi">$posts</span>);</span></pre></div>
+
+<p>The code above returns (minus the <em>pretty format</em>):</p>
+
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>status<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,
+    <span class="pl-s"><span class="pl-pds">"</span>complete<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,
+    <span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>2093856<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>item_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2093856<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>resolved_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2093856<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>given_url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://www.csie.ntu.edu.tw/~cjlin/libsvm/<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>given_title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>favorite<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>status<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>time_added<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1390842458<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>time_updated<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1390927561<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>time_read<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>time_favorited<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>sort_id<span class="pl-pds">"</span></span>: <span class="pl-c1">74</span>,
+            <span class="pl-s"><span class="pl-pds">"</span>resolved_title<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>LIBSVM -- A Library for Support Vector Machines<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>resolved_url<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://www.csie.ntu.edu.tw/~cjlin/libsvm/<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>excerpt<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>LIBSVM -- A Library for Support Vector Machines Chih-Chung Chang and Chih-Jen Lin  Version 3.19 released on October 27, 2014. It conducts some minor fixes.LIBSVM tools provides many extensions of LIBSVM. Please check it if you need some functions not supported in LIBSVM.<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>is_article<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>is_index<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>has_video<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>has_image<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>word_count<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>961<span class="pl-pds">"</span></span>
+        },
+        <span class="pl-s"><span class="pl-pds">"</span> ... and 99 more elements ... <span class="pl-pds">"</span></span>
+    },
+    <span class="pl-s"><span class="pl-pds">"</span>error<span class="pl-pds">"</span></span>: <span class="pl-c1">null</span>,
+    <span class="pl-s"><span class="pl-pds">"</span>search_meta<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>search_type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>normal<span class="pl-pds">"</span></span>
+    },
+    <span class="pl-s"><span class="pl-pds">"</span>since<span class="pl-pds">"</span></span>: <span class="pl-c1">1460836019</span>
+}</pre></div>
+
+<h2>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Credits</h2>
+
+<ul>
+<li>bouiboui — <a href="https://github.com/bouiboui">Github</a> <a href="https://twitter.com/j_____________n">Twitter</a> <a href="http://cod3.net">Website</a>
+</li>
+<li><a href="https://github.com/bouiboui/tissue/graphs/contributors">All contributors</a></li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>Unlicense. Public domain, basically. Please treat it kindly. See <a href="LICENSE">License File</a> for more information. </p>
+
+<p>This project uses the following open source projects </p>
+
+<ul>
+<li>
+<a href="https://github.com/guzzle/guzzle">guzzle/guzzle</a> by <a href="https://github.com/mtdowling">Michael Dowling</a> — <a href="https://github.com/guzzle/guzzle/blob/master/LICENSE">License</a>.</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/bouiboui/pokket-php">Pokket-php</a> is maintained by <a href="https://github.com/bouiboui">bouiboui</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
