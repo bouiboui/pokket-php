@@ -2,6 +2,23 @@
 
 session_start();
 
+// Log out
+if (array_key_exists('logout', $_GET)) {
+    // http://php.net/manual/en/function.session-destroy.php#refsect1-function.session-destroy-examples
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    $_SESSION = [];
+    session_destroy();
+
+    header('Location: /');
+    exit();
+}
+
 use bouiboui\PocketAPI\PocketAPI;
 use bouiboui\PocketAPI\PocketAPIException;
 
@@ -9,7 +26,7 @@ include_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $pocket = new PocketAPI(
     '***REMOVED***', // Consumer key
-    '***REMOVED***/?authorized' // Redirect uri
+    '***REMOVED***/' // Redirect uri
 );
 
 try {
@@ -42,5 +59,8 @@ try {
     }
 
 } catch (PocketAPIException $e) {
+
+    // Deal with exceptions
     echo $e->getMessage();
+
 }
