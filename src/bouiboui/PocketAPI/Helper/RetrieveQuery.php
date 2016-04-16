@@ -8,7 +8,7 @@ namespace bouiboui\PocketAPI\Helper;
  * @url https://getpocket.com/developer/docs/v3/retrieve
  * @method RetrieveQuery withContentType(string $contentType) ::CONTENT_TYPE_*
  * @method RetrieveQuery withCount(int $count) Only return $count number of items
- * @method RetrieveQuery withDetailType(string $detailType) ::DETAIL_TYPE_*
+ * @method RetrieveQuery withDetail_type(string $detailType) ::DETAIL_TYPE_*
  * @method RetrieveQuery withDomain(string $domain) Only return items from a particular $domain
  * @method RetrieveQuery withFavorite(int $zeroOrOne) ::FAVORITE_*
  * @method RetrieveQuery withOffset(int $offset) Used only with count, start returning from $offset position of results

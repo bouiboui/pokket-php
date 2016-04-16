@@ -1,6 +1,5 @@
 <?php
 
-
 namespace bouiboui\PocketAPI;
 
 use bouiboui\PocketAPI\Helper\RetrieveQuery;
