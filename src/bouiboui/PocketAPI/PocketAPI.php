@@ -60,7 +60,7 @@ class PocketAPI
     {
         return $this->client ?: $this->client = new Client();
     }
-    
+
     public function getAccessToken($code)
     {
         return $this->_post(self::AUTHORIZE_URL, ['code' => $code])['access_token'];
@@ -78,9 +78,9 @@ class PocketAPI
 
     public function requestUserAccess($tokenRequest)
     {
-        header('Location: ' . self::REDIRECT_URL . http_build_query([
+        header('Location: ' . self::REDIRECT_URL . '/?' . http_build_query([
                 'request_token' => $tokenRequest,
-                'redirect_uri' => self::REDIRECT_URL
+                'redirect_uri' => $this->redirectUri
             ]));
         exit();
     }
