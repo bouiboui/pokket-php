@@ -29,13 +29,14 @@ try {
         $pocket->setAccessToken($_SESSION['pocket.token.access']);
 
         // Retrieve user posts
-        $posts = $pocket->retrieve(RetrieveQuery::create()
+        $retrieveQuery =RetrieveQuery::create()
             ->withState(RetrieveQuery::STATE_UNREAD)
             ->withSort(RetrieveQuery::SORT_TITLE)
             ->withDetailType(RetrieveQuery::DETAIL_TYPE_SIMPLE)
-            ->withCount(100)
-        );
-        
+            ->withCount(100);
+
+        $posts = $pocket->retrieve($retrieveQuery);
+
         // Display results
         header('Content-type: application/json;Charset=utf8');
         echo json_encode($posts);
