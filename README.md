@@ -64,6 +64,44 @@ header('Content-type: application/json;Charset=utf8');
 echo json_encode($posts);
 ```
 
+The code above returns (minus the *pretty format*):
+
+```json
+{
+	"status": 1,
+	"complete": 1,
+	"list": {
+		"2093856": {
+			"item_id": "2093856",
+			"resolved_id": "2093856",
+			"given_url": "http://www.csie.ntu.edu.tw/~cjlin/libsvm/",
+			"given_title": "",
+			"favorite": "0",
+			"status": "0",
+			"time_added": "1390842458",
+			"time_updated": "1390927561",
+			"time_read": "0",
+			"time_favorited": "0",
+			"sort_id": 74,
+			"resolved_title": "LIBSVM -- A Library for Support Vector Machines",
+			"resolved_url": "http://www.csie.ntu.edu.tw/~cjlin/libsvm/",
+			"excerpt": "LIBSVM -- A Library for Support Vector Machines Chih-Chung Chang and Chih-Jen Lin  Version 3.19 released on October 27, 2014. It conducts some minor fixes.LIBSVM tools provides many extensions of LIBSVM. Please check it if you need some functions not supported in LIBSVM.",
+			"is_article": "0",
+			"is_index": "1",
+			"has_video": "0",
+			"has_image": "1",
+			"word_count": "961"
+		},
+		" ... and 99 more elements ... "
+	},
+	"error": null,
+	"search_meta": {
+		"search_type": "normal"
+	},
+	"since": 1460836019
+}
+```
+
 ## Credits
 
 - bouiboui — [Github](https://github.com/bouiboui) [Twitter](https://twitter.com/j_____________n) [Website](http://cod3.net)
