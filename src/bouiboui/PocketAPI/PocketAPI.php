@@ -12,6 +12,7 @@ use GuzzleHttp\Exception\ClientException;
  */
 class PocketAPI
 {
+    const REDIRECT_URL = 'https://getpocket.com/auth/authorize';
     const RETRIEVE_URL = 'https://getpocket.com/v3/get';
     const TOKEN_URL = 'https://getpocket.com/v3/oauth/request';
     const AUTHORIZE_URL = 'https://getpocket.com/v3/oauth/authorize';
