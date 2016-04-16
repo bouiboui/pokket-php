@@ -10,8 +10,6 @@ include_once dirname(__DIR__) . '/vendor/autoload.php';
 define('CONSUMER_KEY', '***REMOVED***');
 define('REDIRECT_URI', '***REMOVED***/?authorized');
 
-$_SESSION['pocket.token.request'] = 'ea2a5a85-a92c-e12d-aede-070c8e';
-
 try {
 
     if (!array_key_exists('pocket.token.request', $_SESSION)) {
