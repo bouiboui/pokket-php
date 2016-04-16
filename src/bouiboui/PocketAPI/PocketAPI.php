@@ -29,16 +29,22 @@ class PocketAPI
 
     private static function _post($url, array $params = [])
     {
-        return self::_getClient()->post($url, [
-            'json' => array_merge($params, [
-                'consumer_key' => self::$consumerKey,
-                'access_token' => self::$accessToken
-            ]),
-            'headers' => [
-                'Content-Type' => 'application/json; charset=UTF8',
-                'X-Accept' => 'application/json'
-            ]
-        ]);
+        try {
+
+            return json_decode(self::_getClient()->post($url, [
+                'json' => array_merge($params, [
+                    'consumer_key' => self::$consumerKey,
+                    'access_token' => self::$accessToken
+                ]),
+                'headers' => [
+                    'Content-Type' => 'application/json; charset=UTF8',
+                    'X-Accept' => 'application/json'
+                ]
+            ])->getBody(), true);
+
+        } catch (ClientException $e) {
+            throw new PocketAPIException($e->getResponse()->getHeader('X-Error')[0]);
+        }
     }
 
     private static function _getClient()
