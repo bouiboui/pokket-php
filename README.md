@@ -77,8 +77,8 @@ This project uses the following open source projects
 - [guzzle/guzzle](https://github.com/guzzle/guzzle) by [Michael Dowling](https://github.com/mtdowling) — [License](https://github.com/guzzle/guzzle/blob/master/LICENSE).
 
 
-[ico-version]: https://img.shields.io/packagist/v/:vendor/:package_name.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/bouiboui/pokket-php.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-Unlicense-brightgreen.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/:vendor/:package_name
+[link-packagist]: https://packagist.org/packages/bouiboui/pokket-php
 [link-author]: https://github.com/bouiboui
