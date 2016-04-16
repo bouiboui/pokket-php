@@ -72,17 +72,26 @@ class PocketAPI
 
     public static function getAccessToken($consumerKey, $code)
     {
-        $response = self::_getClient()->post(self::AUTHORIZE_URL, [
-            'json' => [
-                'consumer_key' => $consumerKey,
-                'code' => $code
-            ]
-        ]);
-        if ($response->getStatusCode() !== 200) {
-            throw new \ErrorException($response->getHeader('X-Error'));
+
+        try {
+
+            $response = self::_getClient()->post(self::AUTHORIZE_URL, [
+                'json' => [
+                    'consumer_key' => $consumerKey,
+                    'code' => $code
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/json; charset=UTF8',
+                    'X-Accept' => 'application/json'
+                ]
+            ]);
+
+            return json_decode((string)$response->getBody(), true)['access_token'];
+            //self::$userName = json_decode($response->getBody())['username'];
+
+        } catch (ClientException $e) {
+            throw new PocketAPIException($e->getResponse()->getHeader('X-Error')[0]);
         }
-        return json_decode($response->getBody())['access_token'];
-        //self::$userName = json_decode($response->getBody())['username'];
     }
 
     public static function setAccessToken($accessToken)
