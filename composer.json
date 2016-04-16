@@ -2,6 +2,17 @@
   "name": "bouiboui/pokket-php",
   "license": "Unlicense",
   "description": "PHP SDK to access the Pocket API",
+  "keywords": [
+    "pocket",
+    "api",
+    "sdk"
+  ],
+  "authors": [
+    {
+      "name": "bouiboui",
+      "homepage": "http://cod3.net"
+    }
+  ],
   "require": {
     "guzzlehttp/guzzle": "^6.2",
     "php": "^5.6"
