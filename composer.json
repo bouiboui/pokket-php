@@ -1,18 +1,14 @@
 {
-  "config": {
-    "platform": {
-      "php":"~5.6"
-    }
-  },
-  "name": "bouiboui/pocketpal",
+  "name": "bouiboui/pokket-php",
   "license": "Unlicense",
-  "description": "Utilities to enjoy Pocket even more",
+  "description": "PHP SDK to access the Pocket API",
   "require": {
-    "guzzlehttp/guzzle": "^6.2"
+    "guzzlehttp/guzzle": "^6.2",
+    "php": "^5.6"
   },
   "autoload": {
     "psr-4": {
-      "bouiboui\\PocketAPI\\": "src/bouiboui/PocketAPI"
+      "bouiboui\\PokketAPI\\": "src/bouiboui/PokketAPI"
     }
   }
 }

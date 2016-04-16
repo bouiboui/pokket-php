@@ -2,31 +2,31 @@
 
 session_start();
 
-use bouiboui\PocketAPI\Helper\RetrieveQuery;
-use bouiboui\PocketAPI\PocketAPI;
-use bouiboui\PocketAPI\PocketAPIException;
+use bouiboui\PokketAPI\Helper\RetrieveQuery;
+use bouiboui\PokketAPI\PokketAPI;
+use bouiboui\PokketAPI\PokketAPIException;
 
 include_once dirname(__DIR__) . '/vendor/autoload.php';
 
-$pocket = new PocketAPI(
+$pokket = new PokketAPI(
     '1234-abcd1234abcd1234abcd1234', // Consumer key
     'https://yourdomain.tld/' // Redirect uri
 );
 
 try {
 
-    if (!array_key_exists('pocket.token.request', $_SESSION)) {
+    if (!array_key_exists('pokket.token.request', $_SESSION)) {
 
         // Redirect to Pocket access request page
-        $pocket->requestUserAccess($_SESSION['pocket.token.request'] = $pocket->getRequestToken());
+        $pokket->requestUserAccess($_SESSION['pokket.token.request'] = $pokket->getRequestToken());
 
     } else {
 
         // Request access token
-        if (!array_key_exists('pocket.token.access', $_SESSION)) {
-            $_SESSION['pocket.token.access'] = $pocket->getAccessToken($_SESSION['pocket.token.request']);
+        if (!array_key_exists('pokket.token.access', $_SESSION)) {
+            $_SESSION['pokket.token.access'] = $pokket->getAccessToken($_SESSION['pokket.token.request']);
         }
-        $pocket->setAccessToken($_SESSION['pocket.token.access']);
+        $pokket->setAccessToken($_SESSION['pokket.token.access']);
 
         // Retrieve user posts
         $retrieveQuery = RetrieveQuery::build()
@@ -35,7 +35,7 @@ try {
             ->withDetailType(RetrieveQuery::DETAIL_TYPE_SIMPLE)
             ->withCount(100);
 
-        $posts = $pocket->retrieve($retrieveQuery);
+        $posts = $pokket->retrieve($retrieveQuery);
 
         // Display results
         header('Content-type: application/json;Charset=utf8');
@@ -43,7 +43,7 @@ try {
 
     }
 
-} catch (PocketAPIException $e) {
+} catch (PokketAPIException $e) {
 
     // Deal with exceptions
     echo $e->getMessage();

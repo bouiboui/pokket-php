@@ -1,10 +1,10 @@
 <?php
 
-namespace bouiboui\PocketAPI\Helper;
+namespace bouiboui\PokketAPI\Helper;
 
 /**
  * Class RetrieveQuery
- * @package bouiboui\PocketAPI\Helper
+ * @package bouiboui\PokketAPI\Helper
  * @url https://getpocket.com/developer/docs/v3/retrieve
  * @method RetrieveQuery withContentType(string $contentType) ::CONTENT_TYPE_*
  * @method RetrieveQuery withCount(int $count) Only return $count number of items

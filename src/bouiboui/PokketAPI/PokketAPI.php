@@ -1,16 +1,16 @@
 <?php
 
-namespace bouiboui\PocketAPI;
+namespace bouiboui\PokketAPI;
 
-use bouiboui\PocketAPI\Helper\RetrieveQuery;
+use bouiboui\PokketAPI\Helper\RetrieveQuery;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
 /**
- * Class PocketAPI
- * @package bouiboui\PocketAPI
+ * Class PokketAPI
+ * @package bouiboui\PokketAPI
  */
-class PocketAPI
+class PokketAPI
 {
     const AUTHORIZE_URL = 'https://getpocket.com/v3/oauth/authorize';
     const REDIRECT_URL = 'https://getpocket.com/auth/authorize';
@@ -23,7 +23,7 @@ class PocketAPI
     private $redirectUri;
 
     /**
-     * PocketAPI constructor.
+     * PokketAPI constructor.
      * @param string $consumerKey Your consumer key
      * @param string $redirectUri Your redirect URI
      */
@@ -38,7 +38,7 @@ class PocketAPI
      * @url https://getpocket.com/developer/docs/v3/retrieve
      * @param RetrieveQuery $query @see RetrieveQuery
      * @return array An array containing the results
-     * @throws PocketAPIException
+     * @throws PokketAPIException
      */
     public function retrieve(RetrieveQuery $query)
     {
@@ -52,7 +52,7 @@ class PocketAPI
      * @param string $url The requested URL
      * @param array $params Parameters to be sent along
      * @return array An array containing the results
-     * @throws PocketAPIException
+     * @throws PokketAPIException
      */
     private function _post($url, array $params = [])
     {
@@ -67,7 +67,7 @@ class PocketAPI
             ])->getBody(), true);
 
         } catch (ClientException $e) {
-            throw new PocketAPIException($e->getResponse()->getHeader('X-Error')[0]);
+            throw new PokketAPIException($e->getResponse()->getHeader('X-Error')[0]);
         }
     }
 
@@ -84,7 +84,7 @@ class PocketAPI
      * Retrieves an Access token for the API calls
      * @param string $code The request code obtained earlier
      * @return string The returned Access token
-     * @throws PocketAPIException
+     * @throws PokketAPIException
      */
     public function getAccessToken($code)
     {
@@ -103,7 +103,7 @@ class PocketAPI
     /**
      * Retrieves a Request token to be converted in an Access token
      * @return string The Request token / code
-     * @throws PocketAPIException
+     * @throws PokketAPIException
      */
     public function getRequestToken()
     {
