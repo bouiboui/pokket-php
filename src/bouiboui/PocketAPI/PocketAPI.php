@@ -12,35 +12,39 @@ use GuzzleHttp\Exception\ClientException;
  */
 class PocketAPI
 {
+    const AUTHORIZE_URL = 'https://getpocket.com/v3/oauth/authorize';
     const REDIRECT_URL = 'https://getpocket.com/auth/authorize';
     const RETRIEVE_URL = 'https://getpocket.com/v3/get';
     const TOKEN_URL = 'https://getpocket.com/v3/oauth/request';
-    const AUTHORIZE_URL = 'https://getpocket.com/v3/oauth/authorize';
 
-    private static $consumerKey;
-    private static $client;
-    private static $redirectUri;
-    private static $accessToken;
+    const DETAIL_TYPE_SIMPLE = 'simple';
+    const SORT_TITLE = 'title';
+    const STATE_UNREAD = 'unread';
 
-    public static function retrieve()
+    private $accessToken;
+    private $client;
+    private $consumerKey;
+    private $redirectUri;
+
+    public function __construct($consumerKey, $redirectUri)
     {
-        return self::_post(PocketAPI::RETRIEVE_URL, [
-            'state' => 'unread',
-            'sort' => 'title',
-            'detailType' => 'simple',
-            'count' => '100'
-        ]);
+        $this->consumerKey = $consumerKey;
+        $this->redirectUri = $redirectUri;
     }
 
-    private static function _post($url, array $params = [])
+    public function retrieve($params = [])
+    {
+        return $this->_post(self::RETRIEVE_URL,
+            array_merge($params, ['access_token' => $this->accessToken])
+        );
+    }
+
+    private function _post($url, array $params = [])
     {
         try {
 
-            return json_decode(self::_getClient()->post($url, [
-                'json' => array_merge($params, [
-                    'consumer_key' => self::$consumerKey,
-                    'access_token' => self::$accessToken
-                ]),
+            return json_decode($this->_getClient()->post($url, [
+                'json' => array_merge($params, ['consumer_key' => $this->consumerKey]),
                 'headers' => [
                     'Content-Type' => 'application/json; charset=UTF8',
                     'X-Accept' => 'application/json'
@@ -52,71 +56,32 @@ class PocketAPI
         }
     }
 
-    private static function _getClient()
+    private function _getClient()
     {
-        if (null === self::$client) {
-            self::$client = new Client();
-        }
-        return self::$client;
+        return $this->client ?: $this->client = new Client();
+    }
+    
+    public function getAccessToken($code)
+    {
+        return $this->_post(self::AUTHORIZE_URL, ['code' => $code])['access_token'];
     }
 
-    public static function getRequestToken($consumerKey, $redirectUri)
+    public function setAccessToken($accessToken)
     {
-        try {
-
-            $response = self::_getClient()->post(self::TOKEN_URL, [
-                'json' => [
-                    'consumer_key' => self::$consumerKey = $consumerKey,
-                    'redirect_uri' => self::$redirectUri = $redirectUri
-                ],
-                'headers' => [
-                    'Content-Type' => 'application/json; charset=UTF8',
-                    'X-Accept' => 'application/json'
-                ]
-            ]);
-
-            return json_decode((string)$response->getBody(), true)['code'];
-
-        } catch (ClientException $e) {
-            throw new PocketAPIException($e->getResponse()->getHeader('X-Error')[0]);
-        }
+        $this->accessToken = $accessToken;
     }
 
-    public static function setRedirectUri($url)
+    public function getRequestToken()
     {
-        self::$redirectUri = $url;
+        return $this->_post(self::TOKEN_URL, ['redirect_uri' => $this->redirectUri])['code'];
     }
 
-    public static function getAccessToken($consumerKey, $code)
+    public function requestUserAccess($tokenRequest)
     {
-        try {
-
-            $response = self::_getClient()->post(self::AUTHORIZE_URL, [
-                'json' => [
-                    'consumer_key' => $consumerKey,
-                    'code' => $code
-                ],
-                'headers' => [
-                    'Content-Type' => 'application/json; charset=UTF8',
-                    'X-Accept' => 'application/json'
-                ]
-            ]);
-
-            return json_decode((string)$response->getBody(), true)['access_token'];
-            //self::$userName = json_decode($response->getBody())['username'];
-
-        } catch (ClientException $e) {
-            throw new PocketAPIException($e->getResponse()->getHeader('X-Error')[0]);
-        }
-    }
-
-    public static function setAccessToken($accessToken)
-    {
-        self::$accessToken = $accessToken;
-    }
-
-    public static function setConsumerKey($consumerKey)
-    {
-        self::$consumerKey = $consumerKey;
+        header('Location: ' . self::REDIRECT_URL . http_build_query([
+                'request_token' => $tokenRequest,
+                'redirect_uri' => self::REDIRECT_URL
+            ]));
+        exit();
     }
 }
