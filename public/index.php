@@ -2,6 +2,7 @@
 
 session_start();
 
+use bouiboui\PocketAPI\Helper\RetrieveQuery;
 use bouiboui\PocketAPI\PocketAPI;
 use bouiboui\PocketAPI\PocketAPIException;
 
@@ -28,13 +29,13 @@ try {
         $pocket->setAccessToken($_SESSION['pocket.token.access']);
 
         // Retrieve user posts
-        $posts = $pocket->retrieve([
-            'state' => PocketAPI::STATE_UNREAD,
-            'sort' => PocketAPI::SORT_TITLE,
-            'detailType' => PocketAPI::DETAIL_TYPE_SIMPLE,
-            'count' => 100
-        ]);
-
+        $posts = $pocket->retrieve(RetrieveQuery::create()
+            ->withState(RetrieveQuery::STATE_UNREAD)
+            ->withSort(RetrieveQuery::SORT_TITLE)
+            ->withDetailType(RetrieveQuery::DETAIL_TYPE_SIMPLE)
+            ->withCount(100)
+        );
+        
         // Display results
         header('Content-type: application/json;Charset=utf8');
         echo json_encode($posts);

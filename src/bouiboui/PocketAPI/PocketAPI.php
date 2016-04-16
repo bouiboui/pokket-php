@@ -17,10 +17,6 @@ class PocketAPI
     const RETRIEVE_URL = 'https://getpocket.com/v3/get';
     const TOKEN_URL = 'https://getpocket.com/v3/oauth/request';
 
-    const DETAIL_TYPE_SIMPLE = 'simple';
-    const SORT_TITLE = 'title';
-    const STATE_UNREAD = 'unread';
-
     private $accessToken;
     private $client;
     private $consumerKey;
