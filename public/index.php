@@ -29,10 +29,9 @@ try {
     // make calls
     $posts = PocketAPI::retrieve();
 
-    var_dump($posts);
-
+    header('Content-type: application/json;Charset=utf8');
+    echo $posts;
+    
 } catch (PocketAPIException $e) {
-
     echo $e->getMessage();
-
 }

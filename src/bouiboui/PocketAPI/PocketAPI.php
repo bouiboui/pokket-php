@@ -24,7 +24,12 @@ class PocketAPI
 
     public static function retrieve()
     {
-        return self::_post(PocketAPI::RETRIEVE_URL);
+        return self::_post(PocketAPI::RETRIEVE_URL, [
+            'state' => 'unread',
+            'sort' => 'title',
+            'detailType' => 'simple',
+            'count' => '100'
+        ]);
     }
 
     private static function _post($url, array $params = [])
