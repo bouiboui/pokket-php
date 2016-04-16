@@ -15,7 +15,7 @@ try {
     if (!array_key_exists('pocket.token.request', $_SESSION)) {
         $requestToken = PocketAPI::getRequestToken(CONSUMER_KEY, REDIRECT_URI);
         $_SESSION['pocket.token.request'] = $requestToken;
-        header('Location: ' . PocketAPI::AUTHORIZE_URL . '?request_token=' . $requestToken . '&redirect_uri=' . REDIRECT_URI);
+        header('Location: ' . PocketAPI::REDIRECT_URL . '?request_token=' . $requestToken . '&redirect_uri=' . REDIRECT_URI);
         exit();
     }
 
