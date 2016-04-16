@@ -32,7 +32,7 @@ try {
         $retrieveQuery = RetrieveQuery::build()
             ->withState(RetrieveQuery::STATE_UNREAD)
             ->withSort(RetrieveQuery::SORT_TITLE)
-            ->withDetail_type(RetrieveQuery::DETAIL_TYPE_SIMPLE)
+            ->withDetailType(RetrieveQuery::DETAIL_TYPE_SIMPLE)
             ->withCount(100);
 
         $posts = $pocket->retrieve($retrieveQuery);
