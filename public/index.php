@@ -7,8 +7,7 @@ use bouiboui\PocketAPI\PocketAPI;
 include_once dirname(__DIR__) . '/vendor/autoload.php';
 
 define('CONSUMER_KEY', '***REMOVED***');
-define('REDIRECT_URI', '?authorized');
-
+define('REDIRECT_URI', '***REMOVED***/?authorized');
 
 if (!array_key_exists('pocket.token.request', $_SESSION)) {
     $requestToken = PocketAPI::getRequestToken(CONSUMER_KEY, REDIRECT_URI);
