@@ -3,6 +3,7 @@
 
 namespace bouiboui\PocketAPI;
 
+use bouiboui\PocketAPI\Helper\RetrieveQuery;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
@@ -36,14 +37,14 @@ class PocketAPI
     /**
      * Retrieve the logged user's posts
      * @url https://getpocket.com/developer/docs/v3/retrieve
-     * @param array $params Parameters - see linked url and this class constants
+     * @param RetrieveQuery $query @see RetrieveQuery
      * @return array An array containing the results
      * @throws PocketAPIException
      */
-    public function retrieve($params = [])
+    public function retrieve(RetrieveQuery $query)
     {
         return $this->_post(self::RETRIEVE_URL,
-            array_merge($params, ['access_token' => $this->accessToken])
+            array_merge($query->toArray(), ['access_token' => $this->accessToken])
         );
     }
 

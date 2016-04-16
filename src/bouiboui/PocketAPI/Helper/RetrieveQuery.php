@@ -6,15 +6,17 @@ namespace bouiboui\PocketAPI\Helper;
  * Class RetrieveQuery
  * @package bouiboui\PocketAPI\Helper
  * @url https://getpocket.com/developer/docs/v3/retrieve
- * @method RetrieveQuery withContentType(string $contentType)
- * @method RetrieveQuery withCount(int $count)
- * @method RetrieveQuery withDetailType(string $detailType)
- * @method RetrieveQuery withFavorite(int $zeroOrOne)
- * @method RetrieveQuery withOffset(int $offset)
- * @method RetrieveQuery withSince(string $timestamp)
- * @method RetrieveQuery withSort(string $sort)
- * @method RetrieveQuery withState(string $state)
- * @method RetrieveQuery withTag(string $tag)
+ * @method RetrieveQuery withContentType(string $contentType) ::CONTENT_TYPE_*
+ * @method RetrieveQuery withCount(int $count) Only return $count number of items
+ * @method RetrieveQuery withDetailType(string $detailType) ::DETAIL_TYPE_*
+ * @method RetrieveQuery withDomain(string $domain) Only return items from a particular $domain
+ * @method RetrieveQuery withFavorite(int $zeroOrOne) ::FAVORITE_*
+ * @method RetrieveQuery withOffset(int $offset) Used only with count, start returning from $offset position of results
+ * @method RetrieveQuery withSearch(string $search) Only return items whose title or url contain the $search string
+ * @method RetrieveQuery withSince(string $timestamp) Only return items modified since the given since unix $timestamp
+ * @method RetrieveQuery withSort(string $sort) ::SORT_*
+ * @method RetrieveQuery withState(string $state) ::STATE_*
+ * @method RetrieveQuery withTag(string $tag) ::TAG_*
  */
 class RetrieveQuery
 {
@@ -48,7 +50,7 @@ class RetrieveQuery
      * Builder pattern
      * @return RetrieveQuery
      */
-    public static function create()
+    public static function build()
     {
         return new RetrieveQuery();
     }
@@ -61,9 +63,18 @@ class RetrieveQuery
      */
     function __call($name, $arguments)
     {
-        $privateVarName = '_' . lcfirst(substr($name, strlen('with')));
+        $privateVarName = lcfirst(substr($name, strlen('with')));
         $this->{$privateVarName} = $arguments[0];
         return $this;
+    }
+
+    /**
+     * Array of items to be included in the Retrieve query
+     * @return array
+     */
+    public function toArray()
+    {
+        return \get_object_vars($this);
     }
 
 }

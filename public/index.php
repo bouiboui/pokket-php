@@ -29,7 +29,7 @@ try {
         $pocket->setAccessToken($_SESSION['pocket.token.access']);
 
         // Retrieve user posts
-        $retrieveQuery =RetrieveQuery::create()
+        $retrieveQuery = RetrieveQuery::build()
             ->withState(RetrieveQuery::STATE_UNREAD)
             ->withSort(RetrieveQuery::SORT_TITLE)
             ->withDetailType(RetrieveQuery::DETAIL_TYPE_SIMPLE)
