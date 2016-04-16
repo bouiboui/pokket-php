@@ -30,8 +30,8 @@ try {
     $posts = PocketAPI::retrieve();
 
     header('Content-type: application/json;Charset=utf8');
-    echo $posts;
-    
+    echo json_encode($posts);
+
 } catch (PocketAPIException $e) {
     echo $e->getMessage();
 }
