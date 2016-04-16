@@ -9,8 +9,8 @@ use bouiboui\PocketAPI\PocketAPIException;
 include_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $pocket = new PocketAPI(
-    '***REMOVED***', // Consumer key
-    '***REMOVED***/' // Redirect uri
+    '1234-abcd1234abcd1234abcd1234', // Consumer key
+    'https://yourdomain.tld/' // Redirect uri
 );
 
 try {
