@@ -2,6 +2,7 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9d637ad2-7c06-4e8c-a2b2-7e3bae3e1ad4/mini.png)](https://insight.sensiolabs.com/projects/9d637ad2-7c06-4e8c-a2b2-7e3bae3e1ad4)
 
 PHP SDK to access the [Pocket](https://getpocket.com) [API](https://getpocket.com/developer/docs/overview) (v3, currently).
 
