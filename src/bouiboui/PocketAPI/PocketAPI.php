@@ -24,15 +24,21 @@ class PocketAPI
 
     public static function retrieve()
     {
-        self::_post(PocketAPI::RETRIEVE_URL);
+        return self::_post(PocketAPI::RETRIEVE_URL);
     }
 
     private static function _post($url, array $params = [])
     {
-        return self::_getClient()->post($url, ['json' => array_merge($params, [
-            'consumer_key' => self::$consumerKey,
-            'access_token' => self::$accessToken
-        ])]);
+        return self::_getClient()->post($url, [
+            'json' => array_merge($params, [
+                'consumer_key' => self::$consumerKey,
+                'access_token' => self::$accessToken
+            ]),
+            'headers' => [
+                'Content-Type' => 'application/json; charset=UTF8',
+                'X-Accept' => 'application/json'
+            ]
+        ]);
     }
 
     private static function _getClient()
@@ -72,7 +78,6 @@ class PocketAPI
 
     public static function getAccessToken($consumerKey, $code)
     {
-
         try {
 
             $response = self::_getClient()->post(self::AUTHORIZE_URL, [

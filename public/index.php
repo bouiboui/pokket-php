@@ -27,6 +27,9 @@ try {
     PocketAPI::setAccessToken($_SESSION['pocket.token.access']);
 
     // make calls
+    $posts = PocketAPI::retrieve();
+
+    var_dump($posts);
 
 } catch (PocketAPIException $e) {
 
