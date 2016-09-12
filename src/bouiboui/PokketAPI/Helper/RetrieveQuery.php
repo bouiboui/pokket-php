@@ -61,7 +61,7 @@ class RetrieveQuery
      * @param $arguments
      * @return $this
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         $privateVarName = lcfirst(substr($name, strlen('with')));
         $this->{$privateVarName} = $arguments[0];
